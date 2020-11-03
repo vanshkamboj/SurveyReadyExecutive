@@ -8,9 +8,9 @@ import {PreparedDataList, ReadyList} from '../Constants';
 
 let surveyReady = [
   {
-    key: 'EXECUTIVE',
-    type: 'DIRECTORY',
-    list: ReadyList.NURSING,
+    key: 'EXECUTIVE DIRECTORY',
+    type: 'SURVEY',
+    list: ReadyList.EXECUTIVE,
   },
   {
     key: 'NURSING',
@@ -18,9 +18,9 @@ let surveyReady = [
     list: ReadyList.NURSING,
   },
   {
-    key: 'BUSINESS',
-    type: 'OFFICE',
-    list: ReadyList.NURSING,
+    key: 'BUSINESS OFFICE',
+    type: 'SURVEY',
+    list: ReadyList.BUSINESS,
   },
   {
     key: 'MDS',
@@ -57,10 +57,9 @@ let surveyReady = [
 const DataReducer = (state = {surveyReady: surveyReady}, action) => {
   switch (action.type) {
     case RESET:
-      return {surveyReady: surveyReady, surveyPreparedness: surveyPreparedness};
+      return {surveyReady: surveyReady};
     case SET_SELECTION: {
-      const which =
-        action.which == 'SURVEY' ? 'surveyReady' : 'surveyPreparedness';
+      const which = 'surveyReady';
 
       state[which].map((item, index) => {
         if (item.key == action.key) {
@@ -73,8 +72,7 @@ const DataReducer = (state = {surveyReady: surveyReady}, action) => {
       return state;
     }
     case SET_COMMENT: {
-      let which =
-        action.which == 'SURVEY' ? 'surveyReady' : 'surveyPreparedness';
+      let which = 'surveyReady';
 
       state[which].map((item, index) => {
         if (item.key == action.key) {
