@@ -17,9 +17,9 @@ import {
 
 export const HomeScreenButton = (props) => {
   return (
-    <View style={{flex:1,alignItems:"center"}}>
+    <View style={{flex: 1, alignItems: 'center'}}>
       <TouchableOpacity
-      activeOpacity={0.8}
+        activeOpacity={0.8}
         style={[styles.button, styles.shadowBox]}
         onPress={() => props.onClick()}>
         <Text style={styles.text}>
@@ -41,9 +41,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontFamily: Fonts.MEDIUM,
+    fontFamily: Fonts.REGULAR,
     textAlign: 'center',
     color: Colors.secondaryDark,
+    fontSize: 12,
   },
   shadowBox: {
     elevation: 10,
