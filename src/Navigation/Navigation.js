@@ -15,12 +15,11 @@ const Stack = createStackNavigator();
 export const MyScreens = ({navigation, route}) => {
   return (
     <Stack.Navigator
-      initialRouteName="SpleshScreen"
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         animationEnabled: false,
       }}>
-      <Stack.Screen name="SpleshScreen" component={SplashScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ManagerScreen" component={ManagerScreen} />
       <Stack.Screen name="Detail" component={DetailScreen} />

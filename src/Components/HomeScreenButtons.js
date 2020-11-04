@@ -23,7 +23,7 @@ export const HomeScreenButton = (props) => {
         style={[styles.button, styles.shadowBox]}
         onPress={() => props.onClick()}>
         <Text style={styles.text}>
-          {props.text} {props.nextLineText}
+          {props.text}
         </Text>
       </TouchableOpacity>
     </View>
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     width: wp(27),
     borderRadius: 10,
     margin: wp(2),
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(1),
     justifyContent: 'center',
   },
   text: {

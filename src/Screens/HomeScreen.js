@@ -87,7 +87,7 @@ export function HomeScreen({navigation}) {
   };
 
   return (
-    <CustomHeader home={true} title={'Executive'}>
+    <CustomHeader home={true} title={'Manager'}>
       <View style={styles.mainView}>
         <View
           style={{
