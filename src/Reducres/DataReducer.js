@@ -8,19 +8,9 @@ import {PreparedDataList, ReadyList} from '../Constants';
 
 let surveyReady = [
   {
-    key: 'EXECUTIVE DIRECTORY',
-    type: 'SURVEY',
-    list: ReadyList.EXECUTIVE,
-  },
-  {
     key: 'NURSING',
     type: 'SURVEY',
     list: ReadyList.NURSING,
-  },
-  {
-    key: 'BUSINESS OFFICE',
-    type: 'SURVEY',
-    list: ReadyList.BUSINESS,
   },
   {
     key: 'MDS',
@@ -54,17 +44,42 @@ let surveyReady = [
   },
 ];
 
-const DataReducer = (state = {surveyReady: surveyReady}, action) => {
+let intialState = {
+  surveyReady: surveyReady,
+  printList: {},
+};
+const DataReducer = (state = {...intialState}, action) => {
   switch (action.type) {
-    case RESET:
-      return {surveyReady: surveyReady};
+    case RESET: {
+      const which = 'surveyReady';
+      state[which].map((item, index) => {
+        item.list.map((data, index) => {
+          data.selected = false;
+          data.comment = '';
+          console.log(data, '<----d');
+          return data;
+        });
+        return item;
+      });
+      return {...state, printList: {}};
+    }
     case SET_SELECTION: {
       const which = 'surveyReady';
 
       state[which].map((item, index) => {
         if (item.key == action.key) {
           item.list[action.index].selected = action.value;
-          if (action.value == false) item.list[action.index].comment = '';
+          if (action.value == true) {
+            let id = getID(action);
+
+            state.printList[id] = item.list[action.index];
+          }
+          if (action.value == false) {
+            item.list[action.index].comment = '';
+            let id = getID(action);
+
+            delete state.printList[id];
+          }
         }
         return item;
       });
@@ -77,6 +92,9 @@ const DataReducer = (state = {surveyReady: surveyReady}, action) => {
       state[which].map((item, index) => {
         if (item.key == action.key) {
           item.list[action.index].comment = action.value;
+          let id = getID(action);
+          state.printList[id] = item.list[action.index];
+          console.log(state.printList, ' =========  ', item);
         }
         return item;
       });
@@ -89,28 +107,11 @@ const DataReducer = (state = {surveyReady: surveyReady}, action) => {
   }
 };
 
-/**
- * Sort list Accordint to name in Ascending Order
- *
- */
-function sortAse(arr) {
-  arr.sort(function (a, b) {
-    var i = 0;
-    if (a.name < b.name) {
-      return -1;
-    } else if (a.name > b.name) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
-  return arr;
-}
+const getID = (action) => {
+  let which = 'surveyReady';
+  return which + action.key + action.index;
+};
 
-/**
- * Sort list Accordint to name in decending Order
- *
- */
 function sortDec(arr) {
   arr.sort(function (a, b) {
     if (a.name < b.name) {

@@ -23,8 +23,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Share from 'react-native-share';
-import { useDispatch } from 'react-redux';
-import { setSelection , setComment} from '../Actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {setSelection, setComment} from '../Actions';
 
 import {CustomHeader} from '../Components';
 import {Colors, Fonts} from '../Constants';
@@ -32,22 +32,21 @@ import {Colors, Fonts} from '../Constants';
 export function DetailScreen({route, navigation}) {
   const [list, setList] = React.useState([]); // Redux Store Member
   const dispatch = useDispatch();
+  const printList = useSelector((state) => state.DataReducer.printList);
+
   const [selectedId, setSelectedId] = useState(null);
   // const [btns, setBtns] = useState([]);
   const itemData = route?.params?.item;
 
-  console.warn(itemData);
-  React.useEffect(() => {
-  });
-
+  React.useEffect(() => {});
 
   const toogleValue = (newValue, toggleIndex) => {
-    dispatch(setSelection(itemData.type,itemData.key,toggleIndex,newValue))
+    dispatch(setSelection(itemData.type, itemData.key, toggleIndex, newValue));
     setSelectedId(toggleIndex == selectedId ? null : toggleIndex);
   };
 
   const onChangeText = (text, index) => {
-    dispatch(setComment(itemData.type,itemData.key,index,text))
+    dispatch(setComment(itemData.type, itemData.key, index, text));
     setSelectedId(index == selectedId ? null : index);
   };
 
@@ -58,6 +57,7 @@ export function DetailScreen({route, navigation}) {
     for (i = 0; i < item.btn.length; i++) {
       btns.push(
         <Text
+          key={i.toString()}
           style={{
             width: wp(20),
             textAlign: 'center',
@@ -127,8 +127,8 @@ export function DetailScreen({route, navigation}) {
                 // console.log(file.filePath);
                 let optio = {
                   type: 'application/pdf',
-                  url:"file://../asset/Tags.pdf",
-                  excludedActivityTypes:[
+                  url: 'file://../asset/Tags.pdf',
+                  excludedActivityTypes: [
                     'com.apple.UIKit.activity.PostToFacebook', //IOS
                     'com.apple.UIKit.activity.PostToWhatsapp', //IOS
                     'com.apple.UIKit.activity.PostToTwitter', //IOS
@@ -136,11 +136,11 @@ export function DetailScreen({route, navigation}) {
                     'fb://', //IOS
                     'com.whatsapp', //android
                     'com.twitter.android', //android
-                    'com.google.android.gm' //android
+                    'com.google.android.gm', //android
                   ],
-                  showAppsToView:true
+                  showAppsToView: true,
                 };
-                console.log(optio.url)
+                console.log(optio.url);
                 Share.open(optio)
                   .then((res) => {
                     console.log(res);
@@ -208,13 +208,6 @@ export function DetailScreen({route, navigation}) {
       );
   };
 
-  const selectedItems = () => {
-    const data = itemData.list.filter((item) => item.selected == true);
-    console.log(data, '<--');
-
-    return data;
-  };
-
   return (
     <KeyboardAvoidingView
       style={styles.root}
@@ -241,7 +234,10 @@ export function DetailScreen({route, navigation}) {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('SaveDetail', {data: selectedItems()});
+                const arr = Object.keys(printList);
+
+                if (arr && arr.length > 0) navigation.navigate('SaveDetail');
+                else alert('Please select atleast  one survey to proceed.');
               }}>
               <Text
                 style={{

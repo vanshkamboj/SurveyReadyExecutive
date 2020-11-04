@@ -28,14 +28,16 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import {Colors, Fonts} from '../Constants';
 import Share from 'react-native-share';
 import {useNavigation} from '@react-navigation/native';
-import { resetAll } from '../Actions';
-import { useDispatch } from 'react-redux';
+import {resetAll} from '../Actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 export function SaveDetailScreen(props) {
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.DataReducer.printList);
+
+  console.log('==>>>', data);
 
   const navigation = useNavigation();
-  const [list, setList] = React.useState([]); // Redux Store Member
 
   const html = `<style>
   table, th, td {
@@ -55,14 +57,10 @@ export function SaveDetailScreen(props) {
     <th>Comments</th>
   </tr>`;
 
-  React.useEffect(() => {
-    setList(props.route.params.data);
-  }, [list]);
-
   function createRows() {
     let htmlnew = html;
 
-    list.map((item, index) => {
+    Object.values(data).map((item, index) => {
       if (item.selected) {
         htmlnew += `<tr>
      <td >${index + 1}</td>
@@ -72,7 +70,7 @@ export function SaveDetailScreen(props) {
     </tr>`;
       }
     });
-    console.log(list.length, 'html---->' + htmlnew);
+    console.log(Object.values(data).length, 'html---->' + htmlnew);
     createPDF(htmlnew + '</table>');
   }
 
@@ -80,7 +78,7 @@ export function SaveDetailScreen(props) {
     try {
       let options = {
         html: htmlnew,
-        fileName: 'PDF',
+        fileName: 'SurveyReady',
       };
 
       let file = await RNHTMLtoPDF.convert(options);
@@ -90,9 +88,13 @@ export function SaveDetailScreen(props) {
         url:
           Platform.OS === 'android' ? 'file://' + file.filePath : file.filePath,
       };
-      await  Share.open(optio)
-      .then((res) => { console.log(res) })
-      .catch((err) => { err && console.log(err); });
+      await Share.open(optio)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          err && console.log(err);
+        });
     } catch (e) {
       alert(JSON.stringify(e));
     }
@@ -104,6 +106,7 @@ export function SaveDetailScreen(props) {
     for (i = 0; i < item.btn.length; i++) {
       btns.push(
         <Text
+          key={i.toString()}
           style={{
             width: wp(20),
             textAlign: 'center',
@@ -128,7 +131,33 @@ export function SaveDetailScreen(props) {
     return (
       <View>
         <View style={[styles.itemContainer]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            onPress={() => {
+              // console.log(file.filePath);
+              let optio = {
+                type: 'application/pdf',
+                url: 'file://../asset/Tags.pdf',
+                excludedActivityTypes: [
+                  'com.apple.UIKit.activity.PostToFacebook', //IOS
+                  'com.apple.UIKit.activity.PostToWhatsapp', //IOS
+                  'com.apple.UIKit.activity.PostToTwitter', //IOS
+                  'Whatsapp://', //IOS
+                  'fb://', //IOS
+                  'com.whatsapp', //android
+                  'com.twitter.android', //android
+                  'com.google.android.gm', //android
+                ],
+                showAppsToView: true,
+              };
+              console.log(optio.url);
+              Share.open(optio)
+                .then((res) => {
+                  console.log(res);
+                })
+                .catch((err) => {
+                  err && console.log(err);
+                });
+            }}>
             {item.is_btn_mutipal ? (
               setButtons(item)
             ) : (
@@ -148,7 +177,7 @@ export function SaveDetailScreen(props) {
           </TouchableOpacity>
           <Text
             style={{
-              width: wp(62),
+              width: wp(68),
               fontSize: 12,
               color: Colors.secondaryDark,
               fontFamily: Fonts.REGULAR,
@@ -171,7 +200,7 @@ export function SaveDetailScreen(props) {
     );
   };
   const resetSaveItems = () => {
-    dispatch(resetAll())
+    dispatch(resetAll());
     navigation.navigate('Home');
   };
 
@@ -234,7 +263,7 @@ export function SaveDetailScreen(props) {
               keyboardDismissMode="interactive"
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{paddingBottom: 10}}
-              data={list}
+              data={Object.values(data)}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItem}
             />
