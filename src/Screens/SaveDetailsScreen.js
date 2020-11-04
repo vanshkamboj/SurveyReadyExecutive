@@ -30,6 +30,7 @@ import Share from 'react-native-share';
 import {useNavigation} from '@react-navigation/native';
 import {resetAll} from '../Actions';
 import {useDispatch, useSelector} from 'react-redux';
+import { TagPdf } from '../asset/tags';
 
 export function SaveDetailScreen(props) {
   const dispatch = useDispatch();
@@ -133,8 +134,9 @@ export function SaveDetailScreen(props) {
             onPress={() => {
               // console.log(file.filePath);
               let optio = {
-                type: 'application/pdf',
-                url: 'file://../asset/Tags.pdf',
+                filename: 'Tags',
+                url: TagPdf,
+                Tile: 'Tags',
                 excludedActivityTypes: [
                   'com.apple.UIKit.activity.PostToFacebook', //IOS
                   'com.apple.UIKit.activity.PostToWhatsapp', //IOS
@@ -147,7 +149,6 @@ export function SaveDetailScreen(props) {
                 ],
                 showAppsToView: true,
               };
-              console.log(optio.url);
               Share.open(optio)
                 .then((res) => {
                   console.log(res);
