@@ -44,7 +44,11 @@ let surveyReady = [
   },
 ];
 
-const DataReducer = (state = {surveyReady: surveyReady}, action) => {
+let intialState = {
+  surveyReady: surveyReady,
+  printList: {},
+};
+const DataReducer = (state = {...intialState}, action) => {
   switch (action.type) {
     case RESET: {
       state['surveyReady'].map((item, index) => {
