@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.surveyreadyexecutive"
+        applicationId "com.homehealth.surveyreadymanager"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
