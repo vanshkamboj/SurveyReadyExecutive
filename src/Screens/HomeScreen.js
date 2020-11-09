@@ -118,7 +118,7 @@ export function HomeScreen({navigation}) {
           </TouchableOpacity>
         </View>
         <Text style={{fontSize: 14, color: '#000', fontFamily: Fonts.REGULAR}}>
-          Welcome to Survey Ready for nursing homes. Please select from the
+          Welcome to Survey Ready for nursing homes. Please select one of the from the
           following department from below that you want to inspect.
         </Text>
         <View style={{width: '100%', alignItems: 'center', marginTop: hp(15)}}>
