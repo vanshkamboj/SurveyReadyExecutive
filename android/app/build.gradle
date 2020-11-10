@@ -128,8 +128,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    packagingOptions {
+    pickFirst '**/*.so'
+}
+
     defaultConfig {
-        applicationId "com.homehealth.surveyreadymanager"
+        applicationId "com.homehealth.surveymanager"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

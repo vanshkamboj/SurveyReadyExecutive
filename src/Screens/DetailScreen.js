@@ -124,32 +124,7 @@ export function DetailScreen({route, navigation}) {
             </Text>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => {
-                // console.log(file.filePath);
-                let optio = {
-                  filename: 'Tags',
-                  url: TagPdf,
-                  Tile: 'Tags',
-                  excludedActivityTypes: [
-                    'com.apple.UIKit.activity.PostToFacebook', //IOS
-                    'com.apple.UIKit.activity.PostToWhatsapp', //IOS
-                    'com.apple.UIKit.activity.PostToTwitter', //IOS
-                    'Whatsapp://', //IOS
-                    'fb://', //IOS
-                    'com.whatsapp', //android
-                    'com.twitter.android', //android
-                    'com.google.android.gm', //android
-                  ],
-                  showAppsToView: true,
-                };
-                Share.open(optio)
-                  .then((res) => {
-                    // console.log(res);
-                  })
-                  .catch((err) => {
-                    // err && console.log(err);
-                  });
-              }}
+              onPress={() =>navigation.navigate("PDFView")}
               style={{flexDirection: 'column'}}>
               {item.is_btn_mutipal ? (
                 setButtons(item)

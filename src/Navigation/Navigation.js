@@ -6,7 +6,7 @@ import {
   HomeScreen,
   ManagerScreen,
   SaveDetailScreen,
-  SplashScreen,
+  PDFViewer,
 } from '../Screens';
 import * as localStorage from '../AsyncData';
 
@@ -24,6 +24,7 @@ export const MyScreens = ({navigation, route}) => {
       <Stack.Screen name="ManagerScreen" component={ManagerScreen} />
       <Stack.Screen name="Detail" component={DetailScreen} />
       <Stack.Screen name="SaveDetail" component={SaveDetailScreen} />
+      <Stack.Screen name="PDFView" component={PDFViewer} />
     </Stack.Navigator>
   );
 };
